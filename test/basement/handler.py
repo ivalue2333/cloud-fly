@@ -1,9 +1,10 @@
+import unittest
 import requests
 
-import unittest
+from test.common.handler import TestCommonHandler
 
 
-class TestHandler(unittest.TestCase):
+class TestBasementHandler(TestCommonHandler):
 
     def test_post(self):
         pass
@@ -12,14 +13,13 @@ class TestHandler(unittest.TestCase):
         pass
 
     def test_get(self):
-        res = requests.get("http://127.0.0.1:5000/api/v1/ping?age=10", json={"name": "你好"})
-        print(res.content)
+        pass
 
     def test_put(self):
         pass
 
 
-class TestManyHandler(unittest.TestCase):
+class TestBasementManyHandler(TestCommonHandler):
     def test_post(self):
         pass
 

@@ -1,8 +1,11 @@
+import bson
+
 ErrorMsgDataMustDict = "data must dict"
-ErrorMsgKeyNotExists = "key not exists"
-ErrorMsgTypeError = "value type error, key: {}, type: {}, right type: {}"
-ErrorMsgLengthRangeError = "value length range error, key: {}, length: {}, right range: {}"
-ErrorMsgNumberRangeError = "value number range error, key: {}, number: {}, right range: {}"
+ErrorMsgKeyNotExists = "key '{}' not exists"
+ErrorMsgTypeError = "value type error, key: '{}', type: {}, right type: {}"
+ErrorMsgLengthRangeError = "value length range error, key: '{}', length: {}, right range: {}"
+ErrorMsgNumberRangeError = "value number range error, key: '{}', number: {}, right range: {}"
+NeedTransportTypes = [bson.ObjectId]
 
 
 class Field(object):
@@ -31,16 +34,24 @@ class Field(object):
             #  name and default validate
             if self.name not in data_dict:
                 if self.default is None:
-                    ok, error_msg = False, ErrorMsgKeyNotExists
+                    ok, error_msg = False, ErrorMsgKeyNotExists.format(self.name)
                     break
                 else:
                     data_dict[self.name] = self.default
 
-            # 还差类型转换
             #  type validate
             if not isinstance(data_dict[self.name], self.type):
-                ok, error_msg = False, ErrorMsgTypeError.format(self.name, type(data_dict[self.name]), self.type)
-                break
+                if self.type in NeedTransportTypes:
+                    try:
+                        data_dict[self.name] = self.type(data_dict[self.name])
+                    except Exception as e:
+                        ok, error_msg = False, ErrorMsgTypeError.format(self.name, type(data_dict[self.name]),
+                                                                        self.type)
+                        break
+                else:
+                    ok, error_msg = False, ErrorMsgTypeError.format(self.name, type(data_dict[self.name]),
+                                                                    self.type)
+                    break
 
             # range validate
             if self.type in [str, list]:
@@ -112,6 +123,11 @@ class ListField(Field):
 class JsonField(Field):
     def __init__(self, name="", default=None, range_=tuple(), prefix="", hooks=tuple()):
         super().__init__(name, default, dict, range_, prefix, hooks)
+
+
+class ObjectField(Field):
+    def __init__(self, name="", default=None, range_=tuple(), prefix="", hooks=tuple()):
+        super().__init__(name, default, bson.ObjectId, range_, prefix, hooks)
 
 
 class ValidatorMeta(type):

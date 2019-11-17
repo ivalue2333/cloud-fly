@@ -7,4 +7,4 @@ class BasementModel(BaseModel):
     }
 
     def __init__(self):
-        super().__init__("api1", "hot_web_group")
+        super().__init__("api1", "basement")

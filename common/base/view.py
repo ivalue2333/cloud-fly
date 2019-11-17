@@ -1,4 +1,5 @@
 from bson import ObjectId
+from datetime import datetime
 
 
 def base_vo(data_or_datas):
@@ -21,6 +22,10 @@ def base_vo(data_or_datas):
 
             if isinstance(v, ObjectId):
                 data_or_datas[k] = str(data_or_datas[k])
+
+            if isinstance(v, datetime):
+                data_or_datas[k] = data_or_datas[k].strftime("%Y-%m-%d %H:%M:%S")
+
     elif isinstance(data_or_datas, list):
         for v in data_or_datas:
             base_vo(v)

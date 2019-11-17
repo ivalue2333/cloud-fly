@@ -6,12 +6,11 @@ class NewHotWebGroupValidator(Validator):
 
 
 class DeleteHotWebGroupValidator(Validator):
-    id = StringField(name="id")
+    id = ObjectField(name="id")
 
 
 class FindHotWebGroupValidator(Validator):
     pass
-
 
 class UpdateHotWebGroupValidator(Validator):
     pass
