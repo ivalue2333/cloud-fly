@@ -39,7 +39,7 @@ class BaseModel(Collection):
                     v["create_time"] = datetime.now()
                 if "create_time" not in v:
                     v["update_time"] = v["create_time"]
-            result = super().insert_one(doc_or_docs)
+            result = super().insert_many(doc_or_docs)
             return result.inserted_ids
 
     def modify_one(self, spec: dict, doc: dict):

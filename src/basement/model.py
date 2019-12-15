@@ -7,4 +7,4 @@ class BasementModel(BaseModel):
     }
 
     def __init__(self):
-        super().__init__("api1", "basement")
+        super().__init__("cf", "basement")

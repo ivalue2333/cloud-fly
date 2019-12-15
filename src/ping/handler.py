@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 
 from common.base.handler import JsonHandler, JsonLoginedHandler
 
@@ -8,6 +9,7 @@ class PingHandler(JsonHandler):
         # print(self.request.arguments)
         print(self.request_json)
         self.log_keeper.set("ping", "pong")
+        # return self.set_status(HTTPStatus.FORBIDDEN.value)
         return self.return_json(data="pong")
 
     def post(self, *args, **kwargs):
