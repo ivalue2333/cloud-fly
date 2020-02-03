@@ -28,7 +28,7 @@ class SignInHandler(JsonHandler):
             return self.return_json(ErrorCodeParamWrong, err)
         user = service.find_one(self.request_json)
         if user:
-            self.set_cookie(CookieName, str(user["_id"]))
+            self.set_cookie(CookieName, str(user["_id"]), expires_days=30)
         return self.return_json()
 
 

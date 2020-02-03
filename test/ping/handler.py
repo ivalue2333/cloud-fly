@@ -13,6 +13,7 @@ class TestHandler(unittest.TestCase):
 
     def test_get(self):
         res = requests.get("http://127.0.0.1:5000/api/v1/ping?age=10", json={"name": "你好"})
+        res = requests.get("http://127.0.0.1:5000/api/v1/ping?age=10")
         print(res.content)
 
     def test_put(self):

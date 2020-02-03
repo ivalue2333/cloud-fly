@@ -8,6 +8,7 @@ class PingHandler(JsonHandler):
     def get(self, *args, **kwargs):
         # print(self.request.arguments)
         print(self.request_json)
+        print(self.request.headers)
         self.log_keeper.set("ping", "pong")
         # return self.set_status(HTTPStatus.FORBIDDEN.value)
         return self.return_json(data="pong")
